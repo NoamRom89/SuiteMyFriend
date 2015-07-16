@@ -1,7 +1,7 @@
 var suiteApp = angular.module('suiteApp',['ngRoute','ngAutocomplete','leaflet-directive','angular-carousel']);
 
-var USER =  null; /**/
-/*
+var USER = /* null; /**/
+/**/
 {
 
         id: "10153356515014410",
@@ -113,7 +113,7 @@ suiteApp.controller('masterCntrl', function($scope,$http,$location,connectedUser
     };
 
     $scope.angFacebookLogin = function(){
-        /**/
+        /*
         $scope.friendList = [];
         facebookLogin(function(friendList){
                 //friendList = getFacebookFriendsImages(friendList);
@@ -125,6 +125,8 @@ suiteApp.controller('masterCntrl', function($scope,$http,$location,connectedUser
                     friend.bigProfilePicture = 'https://graph.facebook.com/'+ friend.id +'/picture?height=215&width=215';
                     delete friend['picture'];
                 });
+
+                console.log('friendList 2222222222222 AFTER',friendList);
 
                 USER.isNew = true;
                 USER.friendsList = friendList.data;
@@ -154,9 +156,10 @@ suiteApp.controller('masterCntrl', function($scope,$http,$location,connectedUser
                     // Redirect user back to login page
                     $location.path('signup');
                   });
+
         });/**/
 
-        /* API CALL IN LOCALHOST 
+        /* API CALL IN LOCALHOST */
         $http.post( window.location.origin + '/api/userInsert', { user:USER } ).
               success(function(data, status, headers, config) {
                 // this callback will be called asynchronously

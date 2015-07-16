@@ -219,9 +219,9 @@ body,html{
     overflow: scroll;
   }
 
-  .maxheight335{
-    height: 335px;
-    max-height: 335px;
+  .maxheight305{
+    height: 305px;
+    max-height: 305px;
   }
 
   .maxheight245{
@@ -568,7 +568,7 @@ body,html{
       height: 202px;
       border-radius: 200px;
       position: relative;
-      top: 66px;
+      top: 67px;
     }
 
     .no-friends{
@@ -1024,3 +1024,5 @@ body,html{
       }
 
   }
+
+
