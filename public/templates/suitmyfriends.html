@@ -20,8 +20,8 @@
                 </div>
                 
                 <img ng-if="friendList[friendIndex] != null" ng-src="{{friendList[friendIndex].bigProfilePicture}}">
-                <span class="name-wrapper center relative size20 curvedName" ng-if="friendList[friendIndex] != null && categoriazedFriend.Categories != null && categoriazedFriend.Categories.length == 0"> {{friendList[friendIndex].name}} </span>
-                <span class="name-wrapper center relative size20 curvedName" ng-if="categoriazedFriend.Categories.length > 0"> {{lastCateogryName}} </span>
+                <span id="curvedName1" class="name-wrapper center absolute size20" ng-if="friendList[friendIndex] != null && categoriazedFriend.Categories != null && categoriazedFriend.Categories.length == 0"> {{friendList[friendIndex].name}} </span>
+                <span id="curvedName2" class="name-wrapper center absolute size20" ng-if="categoriazedFriend.Categories.length > 0"> {{lastCateogryName}} </span>
             </div>
         </div>
     </div>

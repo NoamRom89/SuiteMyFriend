@@ -138,6 +138,10 @@ body,html{
     height:55px;
   }
 
+  .absolute{
+    position: absolute;
+  }
+
   .size50{
     font-size: 50px;
   }
@@ -545,12 +549,6 @@ body,html{
 
   */
 
-  .curvedName {
-    position: absolute;
-    bottom: 35px;
-    right: 0px;
-    width: 100%;
-  }
 
   .suitmyfriends-body{
         top: 74px;
@@ -579,6 +577,9 @@ body,html{
 
     .suite > .name-wrapper{
         color:black;
+        bottom: 35px;
+        right: 0px;
+        width: 100%;
     }
 
     .float-categories{

@@ -173,7 +173,6 @@ suiteApp
             Categories:[]
         };
 
-
         //Wipe function
         $("#friendPictureSection").wipetouch({
             tapToClick: true, // if user taps the screen, triggers a click event
@@ -318,10 +317,9 @@ suiteApp
         };
 /*************             First load of the page                ********/
 
-
         $(document).ready(function(){
 
-            
+
 
             $scope.clearCategorizedFriends();
             if($scope.friendList.length == 0){
@@ -352,6 +350,8 @@ suiteApp
                 });
 
         });
+        
+        
 })
 
 /***************************
