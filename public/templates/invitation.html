@@ -35,19 +35,14 @@
 			<span class="center block size30 uppercase"> I'm at the </span>
 			<span class="center block size50 overflow maxheight66	"> {{eventLocation.name}} </span>
 			<span class="center block"> {{eventLocation.formatted_address}} </span>
-			<div class="block center margtop20"> 
-				<span class="rspov center block uppercase"> rspov </span>
+			<div class="block center margtop30" ng-click="clearInvitation()"> 
+				<span class="rspov center block uppercase"> Cancel </span>
 			</div>	
 		</section>	
 
 	</section>
 
-	<section class="invitation-footer">
-		<section class="center relative top-10"> 
-			<span class="size40 marginright50" ng-click="clearInvitation()"> &#x2715; </span>
-			<span class="size40 marginright50"> &#x2713; </span>
-			<span class="size40"> ? </span>
-		</section>
+	<section class="invitation-footer margtop30">
 		<section class="sendinvitation center" ng-click="sendInvitation()">  </section>
 	</section>
 	

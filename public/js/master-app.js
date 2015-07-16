@@ -128,6 +128,7 @@ suiteApp.controller('masterCntrl', function($scope,$http,$location,connectedUser
 
                 console.log('friendList 2222222222222 AFTER',friendList);
 
+                USER.isNew = true;
                 USER.friendsList = friendList.data;
                 console.log('success',USER);
                 $http.post(window.location.origin + '/api/userInsert', { user:USER } ).

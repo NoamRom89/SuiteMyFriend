@@ -88,11 +88,27 @@ var getUser = function(userId,callback) {
     });
 };
 
+var changeIsNew = function(userId,callback) {
+    var query = User.findOne().where('_id',userId);
+    query.exec(function(err,user){
+        if(err){
+            console.log('err',err);
+        }else{
+            console.log('user found at changeIsNew before change',  user.userObject.isNew);
+            user.userObject.isNew = false;
+            console.log('user found at changeIsNew after change',  user.userObject.isNew);
+            User.findOneAndUpdate( { _id:userId } ,user,function (err, doc) {
+                if(err){
+                    console.log("err",err);
+                }else{
+                    console.log("\nIsNew has changed :",doc.userObject.isNew);
+                }
+            });
+        }
+    });
+}
 // Exports
 
 exports.addUser = addUser;
 exports.getUser = getUser;
-
-/*****      Connection to the database ( db_suitemybeer ) *****/
-
-
+exports.changeIsNew = changeIsNew;

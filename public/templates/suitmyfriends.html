@@ -14,7 +14,12 @@
                         <div class="selectedImg c{{$index+1}}" ng-style="{'background-image': 'url({{category.SelectedPic}})' }" ng-if="category.IsSelected"> </div>
                     </div>      
                 </div>
-                <img ng-src="{{friendList[friendIndex].bigProfilePicture}}">
+                <div class="no-friends" ng-if="friendList[friendIndex] == null">
+                    <span class="block size40 bold uppercase"> Sorry </span>
+                    <span class="block size15 uppercase"> We ran out of friends </span>
+                </div>
+                
+                <img ng-if="friendList[friendIndex] != null" ng-src="{{friendList[friendIndex].bigProfilePicture}}">
                 <span class="name-wrapper center relative size20 curvedName" ng-if="friendList[friendIndex] != null && categoriazedFriend.Categories != null && categoriazedFriend.Categories.length == 0"> {{friendList[friendIndex].name}} </span>
                 <span class="name-wrapper center relative size20 curvedName" ng-if="categoriazedFriend.Categories.length > 0"> {{lastCateogryName}} </span>
             </div>

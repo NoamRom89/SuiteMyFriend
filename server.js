@@ -97,4 +97,13 @@ app.post('/api/userEventInsert',function(req,res){
     res.send("SUCCESS");
 });
 
+
+app.post('/api/setIsNewFalse',function(req,res){
+    console.log('setIsNewFalse',req.body.userId);
+    userDb.changeIsNew(req.body.userId ,function(callback){
+        res.send("SUCCESS");
+    });
+    
+});
+
 // *************************** Routing *************************** //

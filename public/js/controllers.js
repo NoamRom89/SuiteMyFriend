@@ -237,7 +237,13 @@ suiteApp
         //Pushing selected categories to a new obj.array
         $scope.selectCategory = function(category,$e){
 
-            if($e.originalEvent != null) return;
+
+            if($scope.friendList[$scope.friendIndex] == null)
+                return;
+
+            if($e.originalEvent != null) 
+                return;
+            
             if ($e) $e.stopImmediatePropagation();
             //push into a new array the ID of the category and the userFriendId
             category.IsSelected = !category.IsSelected;
@@ -780,6 +786,36 @@ suiteApp
                         //$location.path('signup');
                     });
         });
+
+    $scope.startApp = function(){
+
+        $scope.changeIsNew();
+        $scope.$parent.changeURL('home');
+
+    }
+
+    $scope.changeIsNew = function(){
+        console.log('setIsNewFalse BEGINNNNNNNNNNN',connectedUser.get()._id);
+        $http.post(window.location.origin + '/api/setIsNewFalse', { userId: connectedUser.get()._id }).
+                    success(function(data, status, headers, config) {
+                        // this callback will be called asynchronously
+                        // when the response is available
+
+                        console.log('setIsNewFalse SUCCESSSSS');
+                        
+
+                    }).
+                    error(function(data, status, headers, config) {
+                        // called asynchronously if an error occurs
+                        // or server returns response with an error status.
+                        console.log('Error : data', data);
+                        console.log('Error : status', status);
+                        console.log('Error : headers', headers);
+                        console.log('Error : config', config);
+                        // Redirect user back to login page
+                        //$location.path('signup');
+                    });
+    }
 
     
 

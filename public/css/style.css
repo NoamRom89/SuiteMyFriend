@@ -142,6 +142,10 @@ body,html{
     font-size: 50px;
   }
 
+  .size15{
+        font-size:15px;
+    }
+
   .size30{
     font-size: 30px;
   }
@@ -190,6 +194,10 @@ body,html{
       margin-top: 30px !important;
   }
 
+  .margleft10px{
+    margin-left: 15px;
+  }
+
   .margtop20{
       margin-top: 20px !important;
   }
@@ -227,6 +235,10 @@ body,html{
 
   .margbottom30{
     margin-bottom: 30px !important;
+  }
+
+  .margbottom20{
+    margin-bottom: 20px !important;
   }
 
   .marginleft32{
@@ -340,7 +352,13 @@ body,html{
       padding-bottom: 15px;
   }
 
+  .paddright15{
+    padding-right: 15px;
+  }
 
+  .textleft{
+    text-align: left;
+  }
 
   .top-10{
     top:-10px;
@@ -546,11 +564,17 @@ body,html{
     }
 
     .suite > img {
-        width: 215px;
-        height: 215px;
-        border-radius: 200px;
+      width: 204px;
+      height: 202px;
+      border-radius: 200px;
+      position: relative;
+      top: 66px;
+    }
+
+    .no-friends{
         position: relative;
-        top: 61px;
+        top: 133px;
+        color: rgb(231, 211, 172);
     }
 
     .suite > .name-wrapper{
