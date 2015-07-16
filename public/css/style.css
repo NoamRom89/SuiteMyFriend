@@ -891,6 +891,79 @@ body,html{
     top:-20px;
   }
 
+  /*
+
+      Guide CSS
+
+      */
+
+
+  #carouselIndicator{
+    position: relative;
+      top: -55px;
+  }
+
+  .template-header > h1, .template-body > span, .template-footer > span{
+    margin: 0px;
+    text-align: left;
+  }
+
+  .cateogry-guide-wrapper{
+    width: 293px;
+    height: 69px;
+    background-color:#e7d3ac;
+    border:1px solid #a19581;
+    margin:5px;
+  }
+
+  .cateogry-guide-wrapper > section{
+    position: absolute;
+  }
+
+  .cateogry-guide-wrapper > section:nth-child(1){
+    width: 240px;
+    height: 100%;
+    left: 0px;
+  }
+  .cateogry-guide-wrapper > section:nth-child(2){
+    width: 60px;
+    height: 100%;
+    right:0px;
+  }
+
+  .guide-category .template-body{
+    width: 305px;
+    height: 309px;
+  }
+
+  .cateogry-guide-wrapper > section > img{
+    width: 60px;
+    height: 60px;
+    position: relative;
+    top: 5px;
+    left: 5px;
+  }
+
+  .top5{
+    top:5px;
+  }
+
+  .categoryName{
+      margin-left: 13px;
+      margin-top: 6px;
+      font-size: 15px;
+      font-weight: 900;
+      text-align: left;
+  }
+
+  .categoryExpl{
+      margin-left: 13px;
+      margin-top: 5px;
+      text-align: left;
+      display: block;
+      font-size: 14px;
+  }
+
 @media screen 
   and (device-width: 360px) 
   and (device-height: 640px) 

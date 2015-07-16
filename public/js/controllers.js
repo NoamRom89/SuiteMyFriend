@@ -71,9 +71,11 @@ suiteApp
 
         $scope.addRemoveCategory = function(category,index){
                 //push into a new array the ID of the category and the userFriendId
+            console.log('category',category);
             category.IsSelected = !category.IsSelected;
                 // if selected is true -> push to array.
                 // if false, delete this category from array.
+            console.log('category',category);
             if(category.IsSelected){
                 $scope.selectedCategoryList.push(category._id);
             }
@@ -139,7 +141,7 @@ suiteApp
                             //$location.path('signup');
                             console.log('(data = null) in getCategories:');
                         }else{
-                            $scope.categoryList = data.categoryObj;
+                            $scope.categoryList = data[0].categoryObj;
                         }
 
                     }).
@@ -329,7 +331,7 @@ suiteApp
                         console.log('(data = null) in getCategories:');
                     }else {
 
-                        $scope.categoryList = data.categoryObj;
+                        $scope.categoryList = data[0].categoryObj;
                     }
                 }).
                 error(function(data, status, headers, config) {
@@ -490,7 +492,7 @@ suiteApp
                             //$location.path('signup');
                             console.log('(data = null) in getCategories:');
                         }else{
-                            $scope.categoryList = data.categoryObj;
+                            $scope.categoryList = data[0].categoryObj;
                         }
 
                     }).
@@ -564,7 +566,7 @@ suiteApp
                             //$location.path('signup');
                             console.log('(data = null) in getCategories:');
                         }else{
-                            $scope.categoryList = data.categoryObj;
+                            $scope.categoryList = data[0].categoryObj;
                         }
 
                     }).
@@ -761,8 +763,9 @@ suiteApp
                             console.log('(data = null) in getCategories:');
                         }else{
 
-                            $scope.categoryList = data.categoryObj;
-                            console.log('(data = null) in getCategories:',data.categoryObj);
+                            $scope.categoryList = data[0].categoryObj;
+                            console.log('(data = null) in getCategories:',data);
+                            console.log('(data = null) in getCategories:',data[0].categoryObj);
                         }
 
                     }).
