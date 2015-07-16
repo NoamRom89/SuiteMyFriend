@@ -1,7 +1,7 @@
 var suiteApp = angular.module('suiteApp',['ngRoute','ngAutocomplete','leaflet-directive','angular-carousel']);
 
-var USER = /* null; /**/
-/**/
+var USER =  null; /**/
+/*
 {
 
         id: "10153356515014410",
@@ -126,8 +126,6 @@ suiteApp.controller('masterCntrl', function($scope,$http,$location,connectedUser
                     delete friend['picture'];
                 });
 
-                console.log('friendList 2222222222222 AFTER',friendList);
-
                 USER.isNew = true;
                 USER.friendsList = friendList.data;
                 console.log('success',USER);
@@ -156,7 +154,6 @@ suiteApp.controller('masterCntrl', function($scope,$http,$location,connectedUser
                     // Redirect user back to login page
                     $location.path('signup');
                   });
-
         });/**/
 
         /* API CALL IN LOCALHOST */
