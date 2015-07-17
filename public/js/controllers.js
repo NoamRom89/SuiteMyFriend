@@ -211,40 +211,36 @@ suiteApp
                 $scope.$apply();
             },
             wipeRight: function() {
-                $scope.giveCategoryToFriend();
-            }
-        });
+                var friend = $scope.friendList[$scope.friendIndex];
+                $scope.categoriazedFriend.FriendId = friend.id;
+                $scope.disSelectAllCategories();
 
-        $scope.giveCategoryToFriend = function(){
-            var friend = $scope.friendList[$scope.friendIndex];
-            $scope.categoriazedFriend.FriendId = friend.id;
-            $scope.disSelectAllCategories();
+                if($scope.categoriazedFriend.Categories.length != 0) {
+                    $scope.friendList.splice($scope.friendList.indexOf(friend),1);
+                    $scope.sendObjOfUserCategoryFriend($scope.categoriazedFriend);
+                    $scope.$apply();
+                }
+                else{
 
-            if($scope.categoriazedFriend.Categories.length != 0) {
-                $scope.friendList.splice($scope.friendList.indexOf(friend),1);
-                $scope.sendObjOfUserCategoryFriend($scope.categoriazedFriend);
-                $scope.$apply();
-            }
-            else{
+                    console.log("Nothing was insert!");
+                }
 
-                console.log("Nothing was insert!");
-            }
+                $scope.INDEX++;
 
-            $scope.INDEX++;
-
-            if($scope.friendIndex < $scope.friendList.length - 1){
-                if($scope.friendList.length == 1)
+                if($scope.friendIndex < $scope.friendList.length - 1){
+                    if($scope.friendList.length == 1)
+                        $scope.friendIndex = 0;
+                    else
+                        $scope.friendIndex++;
+                }
+                else{
                     $scope.friendIndex = 0;
-                else
-                    $scope.friendIndex++;
-            }
-            else{
-                $scope.friendIndex = 0;
-            }
+                }
 
-            $scope.clearcategoriazedFriendObj();
-            $scope.$apply();
-        }
+                $scope.clearcategoriazedFriendObj();
+                $scope.$apply();
+                }
+        });
 
         $scope.changeIsNew = function(){
             console.log('setIsNewFalse BEGINNNNNNNNNNN',connectedUser.get()._id);
