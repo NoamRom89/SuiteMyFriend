@@ -106,6 +106,7 @@ var changeIsNew = function(userId,callback) {
                     console.log("err",err);
                 }else{
                     console.log("\nIsNew has changed :",doc.userObject.isNew);
+                    callback(user);
                 }
             });
         }

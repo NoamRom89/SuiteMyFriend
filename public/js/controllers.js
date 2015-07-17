@@ -176,7 +176,7 @@ suiteApp
         };
 
         $scope.$watch('INDEX', function() {
-            console.log('$scope.INDEX',$scope.INDEX);
+            console.log('$scope.INDEX',$scope.INDEX,connectedUser.get().userObject.isNew);
 
             if(connectedUser.get().userObject.isNew && $scope.INDEX == $scope.limitOfSwipes){
 
@@ -206,6 +206,7 @@ suiteApp
                 else{
                     $scope.friendIndex = 0;
                 }
+
                 $scope.INDEX++;
                 $scope.clearcategoriazedFriendObj();
                 $scope.$apply();
@@ -213,8 +214,6 @@ suiteApp
             wipeRight: function() {
                 var friend = $scope.friendList[$scope.friendIndex];
                 $scope.categoriazedFriend.FriendId = friend.id;
-                $scope.disSelectAllCategories();
-
                 if($scope.categoriazedFriend.Categories.length != 0) {
                     $scope.friendList.splice($scope.friendList.indexOf(friend),1);
                     $scope.sendObjOfUserCategoryFriend($scope.categoriazedFriend);
@@ -237,32 +236,31 @@ suiteApp
                     $scope.friendIndex = 0;
                 }
 
+                $scope.disSelectAllCategories();
                 $scope.clearcategoriazedFriendObj();
                 $scope.$apply();
-                }
+            }
         });
 
         $scope.changeIsNew = function(){
-            console.log('setIsNewFalse BEGINNNNNNNNNNN',connectedUser.get()._id);
+            console.log('changeIsNew setIsNewFalse BEGINNNNNNNNNNN',connectedUser.get()._id);
             $http.post(window.location.origin + '/api/setIsNewFalse', { userId: connectedUser.get()._id }).
-                        success(function(data, status, headers, config) {
-                            // this callback will be called asynchronously
-                            // when the response is available
-
-                            console.log('setIsNewFalse SUCCESSSSS');
-                            
-
-                        }).
-                        error(function(data, status, headers, config) {
-                            // called asynchronously if an error occurs
-                            // or server returns response with an error status.
-                            console.log('Error : data', data);
-                            console.log('Error : status', status);
-                            console.log('Error : headers', headers);
-                            console.log('Error : config', config);
-                            // Redirect user back to login page
-                            //$location.path('signup');
-                        });
+                success(function(data, status, headers, config) {
+                    // this callback will be called asynchronously
+                    // when the response is available
+                    console.log('setIsNewFalse SUCCESSSSS');
+                    connectedUser.update();
+                }).
+                error(function(data, status, headers, config) {
+                    // called asynchronously if an error occurs
+                        // or server returns response with an error status.
+                        console.log('Error : data', data);
+                        console.log('Error : status', status);
+                        console.log('Error : headers', headers);
+                        console.log('Error : config', config);
+                        // Redirect user back to login page
+                        //$location.path('signup');
+                });
         }
 
         //Pushing selected categories to a new obj.array
@@ -340,10 +338,13 @@ suiteApp
 
         //Updating the friendList
         $scope.clearCategorizedFriends = function() {
-            $scope.friendList = connectedUser.get().userObject.friendsList;
-            if($scope.friendList != null && $scope.friendList.length > 0){
-                $scope.friendList.forEach(function(friend){
+            $scope.friendList = [];
+            $scope.friendListTemp = connectedUser.get().userObject.friendsList;
+            console.log('friendListTemp before',$scope.friendListTemp);
+            if($scope.friendListTemp != null && $scope.friendListTemp.length > 0){
+                $scope.friendListTemp.forEach(function(friend){
                     if(friend.categories.length == 0){
+                        console.log('friend',friend);
                         $scope.friendList.push(friend);
                     }
                 });
@@ -355,6 +356,7 @@ suiteApp
         $(document).ready(function(){
 
             $scope.clearCategorizedFriends();
+            console.log('$scope.friendList AFTER',$scope.friendList);
             $scope.friendList.length > 5 ? $scope.limitOfSwipes = 5 : $scope.limitOfSwipes = $scope.friendList.length;
             console.log('$scope.limitOfSwipes',$scope.limitOfSwipes);
             $http.post(window.location.origin + '/api/getCategories').
@@ -822,6 +824,7 @@ suiteApp
     $scope.startApp = function(){
 
         $scope.friendList = connectedUser.get().userObject.friendsList;
+        
         if($scope.friendList == null || $scope.friendList.length == 0){
             swal({
                 title: "Oops..",
@@ -832,6 +835,7 @@ suiteApp
             $scope.changeIsNew();
             $scope.$parent.changeURL('home');
         }else{
+            console.log('startApp ------------- $scope.friendList',$scope.friendList,$scope.friendList.length);
             swal({
                 title: "Swipe time !",
                 text: "Now, lets give it a try",
@@ -844,26 +848,25 @@ suiteApp
     }
 
     $scope.changeIsNew = function(){
-            console.log('setIsNewFalse BEGINNNNNNNNNNN',connectedUser.get()._id);
-            $http.post(window.location.origin + '/api/setIsNewFalse', { userId: connectedUser.get()._id }).
-                        success(function(data, status, headers, config) {
-                            // this callback will be called asynchronously
-                            // when the response is available
+        $http.post(window.location.origin + '/api/setIsNewFalse', { userId: connectedUser.get()._id }).
+            success(function(data, status, headers, config) {
+            // this callback will be called asynchronously
+            // when the response is available
 
-                            console.log('setIsNewFalse SUCCESSSSS');
-                            
+                console.log('setIsNewFalse SUCCESSSSS');
+                connectedUser.update();                           
 
-                        }).
-                        error(function(data, status, headers, config) {
-                            // called asynchronously if an error occurs
-                            // or server returns response with an error status.
-                            console.log('Error : data', data);
-                            console.log('Error : status', status);
-                            console.log('Error : headers', headers);
-                            console.log('Error : config', config);
-                            // Redirect user back to login page
-                            //$location.path('signup');
-                        });
+            }).
+            error(function(data, status, headers, config) {
+                // called asynchronously if an error occurs
+                // or server returns response with an error status.
+                console.log('Error : data', data);
+                console.log('Error : status', status);
+                console.log('Error : headers', headers);
+                console.log('Error : config', config);
+                // Redirect user back to login page
+                //$location.path('signup');
+            });
     }
     
 
