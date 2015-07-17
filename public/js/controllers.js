@@ -432,6 +432,7 @@ suiteApp
         };
 
         $scope.sendInvitation = function(){
+            console.log('$scope.autoComplete.value',$scope.autoComplete.value);
             if($scope.autoComplete.value == null || $scope.autoComplete.value.formatted_address == null) {
                 swal({
                     title: "Oops..",
