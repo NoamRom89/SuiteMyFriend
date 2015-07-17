@@ -163,34 +163,40 @@ suiteApp
  ***************************/
 .controller('suitmyfriendsCntrl', function($scope,$rootScope,$http,connectedUser) {
 
+        $scope.INDEX = 0;
         $scope.friendIndex = 0;
         $scope.lastCateogryName = '';
         $scope.friendList = [];
         $scope.categoryList = [];
+        $scope.limitOfSwipes = 0;
         $scope.categoriazedFriend = {
             UserId:connectedUser.get()._id,
             FriendId:0,
             Categories:[]
         };
 
+        $scope.$watch('INDEX', function() {
+            console.log('$scope.INDEX',$scope.INDEX);
+
+            if(connectedUser.get().userObject.isNew && $scope.INDEX == $scope.limitOfSwipes){
+
+                $scope.changeIsNew();
+
+                swal({
+                    title: "Great !",
+                    text: "Now enjoy the app",
+                    timer: 2000,
+                    showConfirmButton: false });
+
+                $scope.$parent.changeURL('home');
+            }
+        });
+
         //Wipe function
         $("#friendPictureSection").wipetouch({
             tapToClick: true, // if user taps the screen, triggers a click event
             wipeLeft: function() {
 
-                var friend = $scope.friendList[$scope.friendIndex];
-                $scope.categoriazedFriend.FriendId = friend.id;
-                $scope.disSelectAllCategories();
-
-                if($scope.categoriazedFriend.Categories.length != 0) {
-                    $scope.friendList.splice($scope.friendList.indexOf(friend),1);
-                    $scope.sendObjOfUserCategoryFriend($scope.categoriazedFriend);
-                    $scope.$apply();
-                }
-                else{
-                    console.log("Nothing was insert!");
-                }
-
                 if($scope.friendIndex < $scope.friendList.length - 1){
                     if($scope.friendList.length == 1)
                         $scope.friendIndex = 0;
@@ -200,38 +206,68 @@ suiteApp
                 else{
                     $scope.friendIndex = 0;
                 }
-
+                $scope.INDEX++;
                 $scope.clearcategoriazedFriendObj();
                 $scope.$apply();
             },
             wipeRight: function() {
-                var friend = $scope.friendList[$scope.friendIndex];
-                $scope.categoriazedFriend.FriendId = friend.id;
-                $scope.disSelectAllCategories();
-
-                if($scope.categoriazedFriend.Categories.length != 0) {
-                    $scope.friendList.splice($scope.friendList.indexOf(friend),1);
-                    $scope.sendObjOfUserCategoryFriend($scope.categoriazedFriend);
-                    $scope.$apply();
-                }
-                else{
-                    console.log("Nothing was insert!");
-                }
-
-                if($scope.friendIndex < $scope.friendList.length - 1){
-                    if($scope.friendList.length == 1)
-                        $scope.friendIndex = 0;
-                    else
-                        $scope.friendIndex++;
-                }
-                else{
-                    $scope.friendIndex = 0;
-                }
-
-                $scope.clearcategoriazedFriendObj();
-                $scope.$apply();
+                $scope.giveCategoryToFriend();
             }
         });
+
+        $scope.giveCategoryToFriend = function(){
+            var friend = $scope.friendList[$scope.friendIndex];
+            $scope.categoriazedFriend.FriendId = friend.id;
+            $scope.disSelectAllCategories();
+
+            if($scope.categoriazedFriend.Categories.length != 0) {
+                $scope.friendList.splice($scope.friendList.indexOf(friend),1);
+                $scope.sendObjOfUserCategoryFriend($scope.categoriazedFriend);
+                $scope.$apply();
+            }
+            else{
+
+                console.log("Nothing was insert!");
+            }
+
+            $scope.INDEX++;
+
+            if($scope.friendIndex < $scope.friendList.length - 1){
+                if($scope.friendList.length == 1)
+                    $scope.friendIndex = 0;
+                else
+                    $scope.friendIndex++;
+            }
+            else{
+                $scope.friendIndex = 0;
+            }
+
+            $scope.clearcategoriazedFriendObj();
+            $scope.$apply();
+        }
+
+        $scope.changeIsNew = function(){
+            console.log('setIsNewFalse BEGINNNNNNNNNNN',connectedUser.get()._id);
+            $http.post(window.location.origin + '/api/setIsNewFalse', { userId: connectedUser.get()._id }).
+                        success(function(data, status, headers, config) {
+                            // this callback will be called asynchronously
+                            // when the response is available
+
+                            console.log('setIsNewFalse SUCCESSSSS');
+                            
+
+                        }).
+                        error(function(data, status, headers, config) {
+                            // called asynchronously if an error occurs
+                            // or server returns response with an error status.
+                            console.log('Error : data', data);
+                            console.log('Error : status', status);
+                            console.log('Error : headers', headers);
+                            console.log('Error : config', config);
+                            // Redirect user back to login page
+                            //$location.path('signup');
+                        });
+        }
 
         //Pushing selected categories to a new obj.array
         $scope.selectCategory = function(category,$e){
@@ -308,24 +344,23 @@ suiteApp
 
         //Updating the friendList
         $scope.clearCategorizedFriends = function() {
-            $scope.friendList = [];
-            connectedUser.get().userObject.friendsList.forEach(function(friend){
-                if(friend.categories.length == 0){
-                    $scope.friendList.push(friend);
-                }
-            });
+            $scope.friendList = connectedUser.get().userObject.friendsList;
+            if($scope.friendList != null && $scope.friendList.length > 0){
+                $scope.friendList.forEach(function(friend){
+                    if(friend.categories.length == 0){
+                        $scope.friendList.push(friend);
+                    }
+                });
+            }
+            
         };
 /*************             First load of the page                ********/
 
         $(document).ready(function(){
 
-
-
             $scope.clearCategorizedFriends();
-            if($scope.friendList.length == 0){
-                console.log("There is no more friends to categorized! Well Done!");
-            }
-
+            $scope.friendList.length > 5 ? $scope.limitOfSwipes = 5 : $scope.limitOfSwipes = $scope.friendList.length;
+            console.log('$scope.limitOfSwipes',$scope.limitOfSwipes);
             $http.post(window.location.origin + '/api/getCategories').
                 success(function(data, status, headers, config) {
                     // this callback will be called asynchronously
@@ -790,34 +825,50 @@ suiteApp
 
     $scope.startApp = function(){
 
-        $scope.changeIsNew();
-        $scope.$parent.changeURL('home');
+        $scope.friendList = connectedUser.get().userObject.friendsList;
+        if($scope.friendList == null || $scope.friendList.length == 0){
+            swal({
+                title: "Oops..",
+                text: "You have no friends, invite some",
+                timer: 2000,
+                showConfirmButton: false
+            });
+            $scope.changeIsNew();
+            $scope.$parent.changeURL('home');
+        }else{
+            swal({
+                title: "Swipe time !",
+                text: "Now, lets give it a try",
+                timer: 2000,
+                showConfirmButton: false 
+            });
+            $scope.$parent.changeURL('suitmyfriends');
+        }       
 
     }
 
     $scope.changeIsNew = function(){
-        console.log('setIsNewFalse BEGINNNNNNNNNNN',connectedUser.get()._id);
-        $http.post(window.location.origin + '/api/setIsNewFalse', { userId: connectedUser.get()._id }).
-                    success(function(data, status, headers, config) {
-                        // this callback will be called asynchronously
-                        // when the response is available
+            console.log('setIsNewFalse BEGINNNNNNNNNNN',connectedUser.get()._id);
+            $http.post(window.location.origin + '/api/setIsNewFalse', { userId: connectedUser.get()._id }).
+                        success(function(data, status, headers, config) {
+                            // this callback will be called asynchronously
+                            // when the response is available
 
-                        console.log('setIsNewFalse SUCCESSSSS');
-                        
+                            console.log('setIsNewFalse SUCCESSSSS');
+                            
 
-                    }).
-                    error(function(data, status, headers, config) {
-                        // called asynchronously if an error occurs
-                        // or server returns response with an error status.
-                        console.log('Error : data', data);
-                        console.log('Error : status', status);
-                        console.log('Error : headers', headers);
-                        console.log('Error : config', config);
-                        // Redirect user back to login page
-                        //$location.path('signup');
-                    });
+                        }).
+                        error(function(data, status, headers, config) {
+                            // called asynchronously if an error occurs
+                            // or server returns response with an error status.
+                            console.log('Error : data', data);
+                            console.log('Error : status', status);
+                            console.log('Error : headers', headers);
+                            console.log('Error : config', config);
+                            // Redirect user back to login page
+                            //$location.path('signup');
+                        });
     }
-
     
 
 });

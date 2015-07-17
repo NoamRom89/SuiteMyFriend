@@ -26,20 +26,24 @@ var addUser = function(userObj,callback) {
     userObj.events = [];
     // add empty categories array for user.
     // add empty circles array for user.
+    console.log('userObj.friendsList',userObj.friendsList)
+    if(userObj.friendsList != null && userObj.friendsList.length > 0){
+        userObj.friendsList.forEach(function(value,key){
+            value.categories = [];
+            value.circles = [];
+          
+            if(value.hometown != null){   
+                value.circles.push({ value:value.hometown.name });
+            }
 
-    userObj.friendsList.forEach(function(value,key){
-        value.categories = [];
-        value.circles = [];
-      
-        if(value.hometown != null){   
-            value.circles.push({ value:value.hometown.name });
-        }
+            if(value.gender != null){
+                value.circles.push({ value: value.gender });
+            }
 
-        if(value.gender != null){
-            value.circles.push({ value: value.gender });
-        }
+        });
+    }
 
-    });
+    
 
 
     // Adding new user from facebook to User's collection
