@@ -1,3 +1,16 @@
+/****************************************************************************
+ *                                                                          *
+ *                      SERVER                                              *
+ *                                                                          *
+ *      Server.js is our routing and configuration file.                    *
+ *                                                                          *
+ *      In this file, the server is used as the center of the app.          *
+ *      Every request that has been made by the client, will be fulfilled   *
+ *      by navigation between Client <--> Server <--> Web service.          *
+ *                                                                          *
+ ****************************************************************************/
+
+
 var express = require('express');
 var bodyParser = require('body-parser');
 var ngRoute = require('ng-route-it');

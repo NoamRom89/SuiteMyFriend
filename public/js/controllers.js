@@ -1,3 +1,14 @@
+/****************************************************************************
+ *                                                                          *
+ *                      CONTROLLERS                                         *
+ *                                                                          *
+ *      Controller.js it's the client's behavior file.                      *
+ *                                                                          *
+ *      Each controller is responsible for a different part of the app.     *
+ *                                                                          *
+ ****************************************************************************/
+
+
 suiteApp
 /***************************
  *  SignUp Controller
@@ -743,7 +754,12 @@ suiteApp
 
     }
 
-}).controller('guideCntrl', function($scope,$rootScope,$http,connectedUser){
+})
+
+/***************************
+ *  guide Controller
+ ***************************/
+.controller('guideCntrl', function($scope,$rootScope,$http,connectedUser){
 
     $scope.carouselIndex = 0;
     $scope.categoryList = [];
