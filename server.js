@@ -15,12 +15,9 @@ console.log('listenning on server...');
 
 var userDb = require('./webservices/Database/users/db.user');
 
-
-var getUserFriends = require('./webservices/Database/userfriends/db.userfriends').getUserFriends;
 var getAllCategories = require('./webservices/Database/categories/db.categories').getAllCategories;
 
 var addUserCategoryFriend = require('./webservices/Database/usercategoryfriend/db.usercategoryfriend').addUserCategoryFriend;
-var getFriendCircles = require('./webservices/Database/circles/db.circle').getFriendCircles;
 
 var addUserEvent = require('./webservices/Database/userevent/db.userevent').addUserEvent;
 
@@ -45,18 +42,6 @@ app.post('/api/getUser',function(req,res){
     });
 });
 
-
-// GET User Friends API
-app.post('/api/getMyFriends',function(req,res){
-    console.log("api/myfriends DATA:", req.body.userId);
-    
-    // Get User Friends.
-    getUserFriends(req.body.userId,function(friendsJson){
-        console.log('friendsJson',friendsJson);
-        res.json(friendsJson);
-    });
-});
-
 // GET  all Categories API
 app.post('/api/getCategories',function(req,res){
     getAllCategories(function(categoriesJson){
@@ -70,14 +55,6 @@ app.post('/api/getMyUncategorizedFriends',function(req,res){
     console.log("api/getMyUncategorizedFriends DATA:", req.body.userId);
     getUserFriends(req.body.userId,function(friendsJson){
         res.json(friendsJson);
-    });
-});
-
-// GET Friends Circles API
-app.post('/api/getFriendsCircles',function(req,res){
-    console.log("api/getFriendsCircles DATA:", req.body.userId);
-    getFriendCircles(req.body.userId,function(circles){
-        res.json(circles);
     });
 });
 

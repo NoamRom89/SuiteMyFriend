@@ -18,7 +18,7 @@ var getAllCategories = function(callback){
         }
         else{
             console.log('Categories query exac() was exacute: ');
-            callback(categories);
+            callback(categories[0].categoryObj);
         }
     });
 };

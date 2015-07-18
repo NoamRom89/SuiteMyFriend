@@ -22,8 +22,6 @@ suiteApp
  ***************************/
 .controller('welcomeCntrl', function($scope,$rootScope,$location,connectedUser) {
      
-    console.log('welcomeCntrl');
-
     $scope.enterApp = function(){
     	if(connectedUser.get() != null && !connectedUser.get().userObject.isNew){
     		$location.path('home');
@@ -39,7 +37,6 @@ suiteApp
  *  myFriends Controller
  ***************************/
 .controller('myFriendsCntrl', function($scope,$rootScope,$http,connectedUser) {
-        console.log('myFriendsCntrl');
 
         $scope.friendList = connectedUser.get().userObject.friendsList;
         $scope.categoryList = [];
@@ -71,11 +68,9 @@ suiteApp
 
         $scope.addRemoveCategory = function(category,index){
                 //push into a new array the ID of the category and the userFriendId
-            console.log('category',category);
             category.IsSelected = !category.IsSelected;
                 // if selected is true -> push to array.
                 // if false, delete this category from array.
-            console.log('category',category);
             if(category.IsSelected){
                 $scope.selectedCategoryList.push(category._id);
             }
@@ -123,7 +118,6 @@ suiteApp
                     }
                 });
             });
-            console.log('$scope.selectedCategoryList',$scope.selectedCategoryList)
         }
 
         //Page reload for the first time
@@ -134,14 +128,10 @@ suiteApp
                     success(function(data, status, headers, config) {
                         // this callback will be called asynchronously
                         // when the response is available
-                        //console.log('Success : data', data);
                         
                         // if user has signed up or not
-                        if(data == null){
-                            //$location.path('signup');
-                            console.log('(data = null) in getCategories:');
-                        }else{
-                            $scope.categoryList = data[0].categoryObj;
+                        if(data != null){
+                            $scope.categoryList = data;
                         }
 
                     }).
@@ -176,8 +166,6 @@ suiteApp
         };
 
         $scope.$watch('INDEX', function() {
-            console.log('$scope.INDEX',$scope.INDEX,connectedUser.get().userObject.isNew);
-
             if(connectedUser.get().userObject.isNew && $scope.INDEX == $scope.limitOfSwipes){
 
                 $scope.changeIsNew();
@@ -219,10 +207,6 @@ suiteApp
                     $scope.sendObjOfUserCategoryFriend($scope.categoriazedFriend);
                     $scope.$apply();
                 }
-                else{
-
-                    console.log("Nothing was insert!");
-                }
 
                 $scope.INDEX++;
 
@@ -243,12 +227,10 @@ suiteApp
         });
 
         $scope.changeIsNew = function(){
-            console.log('changeIsNew setIsNewFalse BEGINNNNNNNNNNN',connectedUser.get()._id);
             $http.post(window.location.origin + '/api/setIsNewFalse', { userId: connectedUser.get()._id }).
                 success(function(data, status, headers, config) {
                     // this callback will be called asynchronously
                     // when the response is available
-                    console.log('setIsNewFalse SUCCESSSSS');
                     connectedUser.update();
                 }).
                 error(function(data, status, headers, config) {
@@ -285,9 +267,6 @@ suiteApp
             else{
                 $scope.categoriazedFriend.Categories.splice($scope.categoriazedFriend.Categories.indexOf(category),1);
             }
-
-            console.log('selectCategory',$scope.categoriazedFriend,category);
-
         };
 
         //Disselect all categories
@@ -312,12 +291,9 @@ suiteApp
                 success(function(data, status, headers, config) {
                     // this callback will be called asynchronously
                     // when the response is available
-                    //After sending the new categorized friend into the DB, update the friendList
+                    // After sending the new categorized friend into the DB, update the friendList
                     $scope.updateFriendsList();
-                    // if user has signed up or not
-                    if(data == null){
-                        console.log('(data = null) in userCategoryFriendInsert:');
-                    }
+
                 }).
                 error(function(data, status, headers, config) {
                     // called asynchronously if an error occurs
@@ -340,11 +316,9 @@ suiteApp
         $scope.clearCategorizedFriends = function() {
             $scope.friendList = [];
             $scope.friendListTemp = connectedUser.get().userObject.friendsList;
-            console.log('friendListTemp before',$scope.friendListTemp);
             if($scope.friendListTemp != null && $scope.friendListTemp.length > 0){
                 $scope.friendListTemp.forEach(function(friend){
                     if(friend.categories.length == 0){
-                        console.log('friend',friend);
                         $scope.friendList.push(friend);
                     }
                 });
@@ -356,19 +330,14 @@ suiteApp
         $(document).ready(function(){
 
             $scope.clearCategorizedFriends();
-            console.log('$scope.friendList AFTER',$scope.friendList);
             $scope.friendList.length > 5 ? $scope.limitOfSwipes = 5 : $scope.limitOfSwipes = $scope.friendList.length;
-            console.log('$scope.limitOfSwipes',$scope.limitOfSwipes);
             $http.post(window.location.origin + '/api/getCategories').
                 success(function(data, status, headers, config) {
                     // this callback will be called asynchronously
                     // when the response is available
                     // if user has signed up or not
-                    if(data == null){
-                        console.log('(data = null) in getCategories:');
-                    }else {
-
-                        $scope.categoryList = data[0].categoryObj;
+                    if(data != null){
+                        $scope.categoryList = data;
                     }
                 }).
                 error(function(data, status, headers, config) {
@@ -416,7 +385,6 @@ suiteApp
 
         // Watch for Landmark input.
         $scope.$watch('autoComplete.details', function (n, o) {
-            console.log('n',n);
             $scope.autoComplete.value = n;
             if(!jQuery.isEmptyObject(n)){
                 var location = $scope.autoComplete.value.geometry.location;
@@ -465,7 +433,6 @@ suiteApp
         };
 
         $scope.sendInvitation = function(){
-            console.log('$scope.autoComplete.value',$scope.autoComplete.value);
             if($scope.autoComplete.value == null || $scope.autoComplete.value.formatted_address == null) {
                 swal({
                     title: "Oops..",
@@ -485,8 +452,6 @@ suiteApp
                 types: $scope.autoComplete.value.types,
                 place_id: $scope.autoComplete.value.place_id,
             }
-
-            console.log('$scope.autoCompleteObj',$scope.autoCompleteObj);
 
             invitation.changeLocation($scope.autoCompleteObj);
             $scope.$parent.changeURL('selectfriends');
@@ -514,7 +479,7 @@ suiteApp
                 obj.removeClass('height100');
             }else{
                 obj.addClass('height100');
-                if($scope.friendList.length <= 0){
+                if($scope.friendList != null && $scope.friendList.length <= 0){
                     $scope.friendList = connectedUser.get().userObject.friendsList;
                 }
             }
@@ -528,11 +493,8 @@ suiteApp
                         // when the response is available
                         
                         // if user has signed up or not
-                        if(data == null){
-                            //$location.path('signup');
-                            console.log('(data = null) in getCategories:');
-                        }else{
-                            $scope.categoryList = data[0].categoryObj;
+                        if(data != null){
+                            $scope.categoryList = data;
                         }
 
                     }).
@@ -579,34 +541,30 @@ suiteApp
 
         $scope.circleList = [];
         // Array contains circles types.
-        $scope.friendList.forEach(function(value,key){
-            if(value.circles != null && value.circles.length > 0){
-                value.circles.forEach(function(cValue,key){
-                    
-                    var obj = {
-                        value:cValue.value,
-                        IsSelected:false
-                    };
+        if($scope.friendList != null && $scope.friendList.length > 0){
+            $scope.friendList.forEach(function(value,key){
+                if(value.circles != null && value.circles.length > 0){
+                    value.circles.forEach(function(cValue,key){
+                        
+                        var obj = {
+                            value:cValue.value,
+                            IsSelected:false
+                        };
 
-                    if( !$scope.containsObject(obj,$scope.circleList) )
-                        $scope.circleList.push(obj);
-                });
-            }
+                        if( !$scope.containsObject(obj,$scope.circleList) )
+                            $scope.circleList.push(obj);
+                    });
+                }
 
-        });
-
+            });
+        }
 
         $http.post(window.location.origin + '/api/getCategories').
                     success(function(data, status, headers, config) {
                         // this callback will be called asynchronously
                         // when the response is available
-                        
-                        // if user has signed up or not
-                        if(data == null){
-                            //$location.path('signup');
-                            console.log('(data = null) in getCategories:');
-                        }else{
-                            $scope.categoryList = data[0].categoryObj;
+                        if(data != null){
+                            $scope.categoryList = data;
                         }
 
                     }).
@@ -661,10 +619,15 @@ suiteApp
         };
 
         $scope.selectAll = function(){
-            if($scope.selectedFriends.length == $scope.friendList.length){
+
+            // If All friends were selected -> unselect all
+            if($scope.selectedFriends != null && $scope.friendList != null && $scope.selectedFriends.length == $scope.friendList.length){
                 $scope.unsellectAll();
                 return;
             }
+
+            if($scope.selectedFriends == null || $scope.selectedFriends.length == 0)
+                return;
 
             angular.forEach($scope.friendList, function(friend){
                 if(friend.IsSelected == false){
@@ -687,7 +650,7 @@ suiteApp
             if($scope.selectedFriends == null || $scope.selectedFriends.length <= 0){
               swal({
                   title: "Oops..",
-                  text: "You forgot to invite friend/s",
+                  text: "You forgot to invite friends",
                   timer: 2000,
                   showConfirmButton: false });
 
@@ -796,16 +759,8 @@ suiteApp
                     success(function(data, status, headers, config) {
                         // this callback will be called asynchronously
                         // when the response is available
-                        
-                        // if user has signed up or not
-                        if(data == null){
-                            //$location.path('signup');
-                            console.log('(data = null) in getCategories:');
-                        }else{
-
-                            $scope.categoryList = data[0].categoryObj;
-                            console.log('(data = null) in getCategories:',data);
-                            console.log('(data = null) in getCategories:',data[0].categoryObj);
+                        if(data != null){
+                            $scope.categoryList = data;
                         }
 
                     }).
@@ -835,7 +790,6 @@ suiteApp
             $scope.changeIsNew();
             $scope.$parent.changeURL('home');
         }else{
-            console.log('startApp ------------- $scope.friendList',$scope.friendList,$scope.friendList.length);
             swal({
                 title: "Swipe time !",
                 text: "Now, lets give it a try",
@@ -850,10 +804,8 @@ suiteApp
     $scope.changeIsNew = function(){
         $http.post(window.location.origin + '/api/setIsNewFalse', { userId: connectedUser.get()._id }).
             success(function(data, status, headers, config) {
-            // this callback will be called asynchronously
-            // when the response is available
-
-                console.log('setIsNewFalse SUCCESSSSS');
+                // this callback will be called asynchronously
+                // when the response is available
                 connectedUser.update();                           
 
             }).

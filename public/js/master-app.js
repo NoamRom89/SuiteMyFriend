@@ -1,7 +1,7 @@
 var suiteApp = angular.module('suiteApp',['ngRoute','ngAutocomplete','leaflet-directive','angular-carousel']);
 
-var USER =  null; /**/
-/*
+var USER =  /*null; /**/
+/**/
 {
 
         id: "10153356515014410",
@@ -98,7 +98,7 @@ suiteApp.controller('masterCntrl', function($scope,$http,$location,connectedUser
     };
 
     $scope.angFacebookLogin = function(){
-        /**/
+        /*
         $scope.friendList = [];
         facebookLogin(function(friendList){
                 //friendList = getFacebookFriendsImages(friendList);
@@ -113,12 +113,10 @@ suiteApp.controller('masterCntrl', function($scope,$http,$location,connectedUser
 
                 USER.isNew = true;
                 USER.friendsList = friendList.data;
-                console.log('success',USER);
                 $http.post(window.location.origin + '/api/userInsert', { user:USER } ).
                   success(function(data, status, headers, config) {
                     // this callback will be called asynchronously
                     // when the response is available
-                    console.log('Success : data', data);
                     // if user has signed up or not
                     if(data == null){
                         $location.path('signup');
@@ -141,17 +139,15 @@ suiteApp.controller('masterCntrl', function($scope,$http,$location,connectedUser
                   });
         });/**/
 
-        /* API CALL IN LOCALHOST 
+        /* API CALL IN LOCALHOST */
         $http.post( window.location.origin + '/api/userInsert', { user:USER } ).
               success(function(data, status, headers, config) {
                 // this callback will be called asynchronously
                 // when the response is available
-                console.log('Success : data', data);
                 // if user has signed up or not
                 if(data == null){
                     $location.path('signup');
                 }else{
-                    console.log('data',data);
                     connectedUser.set(data);
                     $scope.connectedUser = data;
                     $location.path('welcome');
@@ -161,7 +157,6 @@ suiteApp.controller('masterCntrl', function($scope,$http,$location,connectedUser
               error(function(data, status, headers, config) {
                 // called asynchronously if an error occurs
                 // or server returns response with an error status.
-                console.log('Error : status', status);
                 // Redirect user back to login page
                 $location.path('signup');
               });
