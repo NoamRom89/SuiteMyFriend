@@ -1,14 +1,3 @@
-/****************************************************************************
- *                                                                          *
- *                      CONTROLLERS                                         *
- *                                                                          *
- *      Controller.js it's the client's behavior file.                      *
- *                                                                          *
- *      Each controller is responsible for a different part of the app.     *
- *                                                                          *
- ****************************************************************************/
-
-
 suiteApp
 /***************************
  *  SignUp Controller
